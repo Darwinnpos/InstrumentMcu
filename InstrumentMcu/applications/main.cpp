@@ -9,7 +9,8 @@
  */
 
 #include <rtthread.h>
-
+#include "define.h"
+#include <vector>
 
 #define DBG_TAG "main"
 #define DBG_LVL DBG_LOG
@@ -45,11 +46,24 @@ void InitBoardPerip(int boardType)
     }
 }
 
-void InitThread(int boardType)
+ErrorCode InitCanThread()
 {
+    return NO_ERROE;
+}
+ErrorCode InitPeripThread(){return NO_ERROE;};
+ErrorCode InitMotorThread(){return NO_ERROE;};
+
+ErrorCode InitThread(int boardType)
+{
+    //根据单板资源创建驱动线程
+    vector<ErrorCode> ret;
+    ErrorCode tmp_ret;
     switch (boardType) {
     case 1:
-
+        tmp_ret = InitPeripThread();
+        ret.push_back(tmp_ret);
+        tmp_ret = InitMotorThread();
+        ret.push_back(tmp_ret);
         break;
     case 2:
 
@@ -57,6 +71,19 @@ void InitThread(int boardType)
     default:
         break;
     }
+    //创建公共线程
+    //can 通信
+    tmp_ret = InitCanThread();
+    ret.push_back(tmp_ret);
+    //检查 整体的错误情况
+    for(auto iter = ret.begin(); iter != ret.end(); iter++)
+    {
+        if(*iter != NO_ERROE)
+        {
+            return ERROR;
+        }
+    }
+    return NO_ERROE;
 }
 
 int main(void)
