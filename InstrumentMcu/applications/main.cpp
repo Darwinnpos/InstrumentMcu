@@ -51,7 +51,15 @@ ErrorCode InitCanThread()
     return NO_ERROE;
 }
 ErrorCode InitPeripThread(){return NO_ERROE;};
-ErrorCode InitMotorThread(){return NO_ERROE;};
+ErrorCode InitMotorThread()
+{
+    for(int i = 0; i < 5; i++)
+    {
+
+
+    }
+    return NO_ERROE;
+};
 
 ErrorCode InitThread(int boardType)
 {

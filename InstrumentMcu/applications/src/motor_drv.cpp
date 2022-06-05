@@ -7,11 +7,21 @@
  * Date           Author       Notes
  * 2022-06-05     Administrator       the first version
  */
-#ifndef APPLICATIONS_INCLUDE_PROTOCFG_H_
-#define APPLICATIONS_INCLUDE_PROTOCFG_H_
-
-//约定通信相关的定义
 
 
+#include "motor_drv.h"
 
-#endif /* APPLICATIONS_INCLUDE_PROTOCFG_H_ */
+CMotorDrv::CMotorDrv(uint8_t _driver_num)
+{
+    driver_num = _driver_num;
+}
+
+CMotorDrv::~CMotorDrv()
+{
+
+}
+
+int CMotorDrv::run(uint32_t position)
+{
+    return 0;
+}
