@@ -9,7 +9,9 @@
  */
 
 #include <rtthread.h>
-
+#include "define.h"
+#include <vector>
+#include "thread_mng.h"
 
 #define DBG_TAG "main"
 #define DBG_LVL DBG_LOG
@@ -21,18 +23,19 @@ using namespace std;
 void InitPin()
 {
 
-
 }
 
 int GetBoardType()
 {
     InitPin();
     //逐位获取数据
+
     return 0;
 }
 
 void InitBoardPerip(int boardType)
 {
+    //初始化差异化外设
     switch (boardType) {
     case 1:
 
@@ -43,28 +46,18 @@ void InitBoardPerip(int boardType)
     default:
         break;
     }
-}
-
-void InitThread(int boardType)
-{
-    switch (boardType) {
-    case 1:
-
-        break;
-    case 2:
-
-        break;
-    default:
-        break;
-    }
+    //初始化共有外设
+    //LED
 }
 
 int main(void)
 {
     //初始化板类型引脚定义
     auto ret = GetBoardType();
+    //根据板卡类型初始化外设
     InitBoardPerip(ret);
-    InitThread(ret);
+    //根据板卡类型初始化线程
+    CThreadMng::GetInstance()->InitThread(ret);
     while(1)
     {
         //LED
