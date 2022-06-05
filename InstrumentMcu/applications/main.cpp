@@ -11,6 +11,7 @@
 #include <rtthread.h>
 #include "define.h"
 #include <vector>
+#include "thread_mng.h"
 
 #define DBG_TAG "main"
 #define DBG_LVL DBG_LOG
@@ -22,18 +23,19 @@ using namespace std;
 void InitPin()
 {
 
-
 }
 
 int GetBoardType()
 {
     InitPin();
     //逐位获取数据
+
     return 0;
 }
 
 void InitBoardPerip(int boardType)
 {
+    //初始化差异化外设
     switch (boardType) {
     case 1:
 
@@ -44,62 +46,18 @@ void InitBoardPerip(int boardType)
     default:
         break;
     }
-}
-
-ErrorCode InitCanThread()
-{
-    return NO_ERROE;
-}
-ErrorCode InitPeripThread(){return NO_ERROE;};
-ErrorCode InitMotorThread()
-{
-    for(int i = 0; i < 5; i++)
-    {
-
-
-    }
-    return NO_ERROE;
-};
-
-ErrorCode InitThread(int boardType)
-{
-    //根据单板资源创建驱动线程
-    vector<ErrorCode> ret;
-    ErrorCode tmp_ret;
-    switch (boardType) {
-    case 1:
-        tmp_ret = InitPeripThread();
-        ret.push_back(tmp_ret);
-        tmp_ret = InitMotorThread();
-        ret.push_back(tmp_ret);
-        break;
-    case 2:
-
-        break;
-    default:
-        break;
-    }
-    //创建公共线程
-    //can 通信
-    tmp_ret = InitCanThread();
-    ret.push_back(tmp_ret);
-    //检查 整体的错误情况
-    for(auto iter = ret.begin(); iter != ret.end(); iter++)
-    {
-        if(*iter != NO_ERROE)
-        {
-            return ERROR;
-        }
-    }
-    return NO_ERROE;
+    //初始化共有外设
+    //LED
 }
 
 int main(void)
 {
     //初始化板类型引脚定义
     auto ret = GetBoardType();
+    //根据板卡类型初始化外设
     InitBoardPerip(ret);
-    InitThread(ret);
+    //根据板卡类型初始化线程
+    CThreadMng::GetInstance()->InitThread(ret);
     while(1)
     {
         //LED

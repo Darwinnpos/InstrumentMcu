@@ -12,12 +12,14 @@
 
 using namespace std;
 
+#define NUM_MOTOR_DRV  6
+#define NUM_IO_DRV  20
+
+
 enum ErrorCode
 {
     NO_ERROE,
     ERROR
-
-
 };
 
 
